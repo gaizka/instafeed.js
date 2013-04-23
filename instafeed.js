@@ -14,7 +14,8 @@
         links: true,
         limit: 15,
         mock: false,
-        pages: 1
+        pages: 1,
+        filter: null
       };
       if (typeof params === 'object') {
         for (option in params) {
@@ -129,6 +130,9 @@
           imageString = '';
           for (_i = 0, _len = images.length; _i < _len; _i++) {
             image = images[_i];
+            if (this.options.filter && !this.options.filter(image)) {
+              continue;
+            }
             imageString = this._makeTemplate(this.options.template, {
               model: image,
               id: image.id,
@@ -146,6 +150,9 @@
           fragment = document.createDocumentFragment();
           for (_j = 0, _len1 = images.length; _j < _len1; _j++) {
             image = images[_j];
+            if (this.options.filter && !this.options.filter(image)) {
+              continue;
+            }
             img = document.createElement('img');
             img.src = image.images[this.options.resolution].url;
             if (this.options.links === true) {

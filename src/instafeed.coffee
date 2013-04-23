@@ -10,6 +10,7 @@ class Instafeed
       limit: 15
       mock: false
       pages: 1
+      filter: null
 
     # if an object is passed in, override the default options
     if typeof params is 'object'
@@ -147,6 +148,9 @@ class Instafeed
 
         # loop through the images
         for image in images
+          if @options.filter && !@options.filter(image)
+            continue
+
           # parse the template
           imageString = @_makeTemplate @options.template,
             model: image
@@ -169,6 +173,9 @@ class Instafeed
 
         # loop through the images
         for image in images
+          if @options.filter && !@options.filter(image)
+            continue
+
           # create the image using the @options's resolution
           img = document.createElement 'img'
           img.src = image.images[@options.resolution].url
